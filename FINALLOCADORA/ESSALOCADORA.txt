@@ -1,0 +1,225 @@
+create table locadora(codlocadora int(5) not null,
+nome varchar(50) not null,
+totalfolha float(10,2) not null,
+totalfaturamento float(10,2) not null,
+primary key(codlocadora));
+
+
+
+create table funcionarios(
+codfuncionario int(5) not null,
+nome varchar(50) not null,
+cidade varchar(50) not null,
+estado varchar(50) not null,
+telefone int(10) not null,
+cargo varchar(50) not null,
+salario float(6,2) not null,
+primary key(codfuncionario));
+
+
+
+create table clientes(
+codcliente int(5) not null,
+nome varchar(50) not null,
+cidade varchar(50) not null,
+estado varchar(50) not null,
+telefone int(10) not null,
+cpf int(12) not null,
+status int(1) not null,
+primary key(codcliente));
+
+
+create table filmes(
+codfilme int(5) not null,
+titulo varchar(50) not null,
+tempoduracao time not null,
+tipoclassificacao varchar(50) not null,
+diretor varchar(50) not null,
+status int(1) not null,
+primary key(codfilme));
+
+
+
+create table locacao(
+codlocacao int(5) not null,
+datalocacao date not null,
+horalocacao time not null,
+codcliente int(5) not null,
+codfilme int(5) not null,
+valordiaria float(6,2) not null,
+status int(1) not null,
+primary key(codlocacao),
+foreign key(codcliente) references clientes (codcliente),
+foreign key(codfilme) references filmes (codfilme));
+
+
+
+create table devolucao (
+coddevolucao int(5) not null,
+codlocacao int(5) not null,
+datadevolucao date not null,
+horadevolucao time not null,
+valorpago float(6,2) not null,
+primary key(coddevolucao),
+foreign key(codlocacao) references locacao (codlocacao));
+
+
+
+
+///////////////////////inserts locadora//////////////
+
+insert into locadora (codlocadora,nome,totalfolha,totalfaturamento)
+values (1,"Locadora Alfa",0,0);
+
+
+...........................
+
+
+insert into clientes (codcliente,nome,cidade,estado,telefone,cpf,status)
+values (1,"Carlos","Orleans","SC",1234567891,88880000,1);
+
+insert into clientes (codcliente,nome,cidade,estado,telefone,cpf,status)
+values (2,"Paulo","Criciuma","SC",1234567566,84444000,1);
+
+insert into clientes (codcliente,nome,cidade,estado,telefone,cpf,status)
+values (3,"Cris","Salvador","BH",0004567566,62222000,1);
+
+
+
+
+
+insert into funcionarios (codfuncionario,nome,cidade,estado,telefone,cargo,salario)
+values (1,"Joao","Curitiba","Paraná",9999,"CEO",2000.69);
+
+insert into funcionarios (codfuncionario,nome,cidade,estado,telefone,cargo,salario)
+values (2,"Pedro","Porto Alegre","Rio Grande do Sul",5555,"Gerente",2444.99);
+
+insert into funcionarios (codfuncionario,nome,cidade,estado,telefone,cargo,salario)
+values (3,"Americo","Belém","Pará",4556,"Supervisor",1111.99);
+
+
+
+
+insert into filmes (codfilme,titulo,tempoduracao,tipoclassificacao,diretor,status)
+values (1,"Longas Tranças De Um Careca","2:30:00","Comédia","Rafael",1);
+
+insert into filmes (codfilme,titulo,tempoduracao,tipoclassificacao,diretor,status)
+values (2,"Harry Potter e as Relíquias da Morte: Parte 1","2:26:00","Aventura","Steven Kloves",2);
+
+insert into filmes (codfilme,titulo,tempoduracao,tipoclassificacao,diretor,status)
+values (3,"First Man","2:21:00","Ação","Damien Chazelle",1);
+
+
+
+
+insert into locacao (codlocacao,datalocacao,horalocacao,valordiaria,status,codcliente,codfilme)
+values (1,"2021/08/05","13:30:00",7.90,1,1,1);
+
+insert into locacao (codlocacao,datalocacao,horalocacao,valordiaria,status,codcliente,codfilme)
+values (2,"2021/07/08","12:35:00",5.30,2,2,2);
+
+insert into locacao (codlocacao,datalocacao,horalocacao,valordiaria,status,codcliente,codfilme)
+values (3,"2021/09/05","15:21:00",6.95,1,3,3);
+
+
+
+insert into devolucao (coddevolucao,codlocacao,datadevolucao,horadevolucao,valorpago,codlocacao)
+values (1,1,"2021/06/21","12:38:00",8.80,1);
+
+insert into devolucao (coddevolucao,codlocacao,datadevolucao,horadevolucao,valorpago)
+values (2,2,"2021/07/31","16:35:00",6.95,2);
+
+insert into devolucao (coddevolucao,codlocacao,datadevolucao,horadevolucao,valorpago)
+values (3,3,"2021/07/31","16:40:00",9.90);
+
+
+
+
+/////////////////create view/////////////////////
+
+CREATE VIEW `locadora_visualizar` AS
+select * from locadora;
+........................
+
+
+a) Mostrar os funcionários (nome, cargo e salario) cadastrados com cargo ‘Atendente’.
+
+SELECT  nome, cargo,salario  FROM locadora.funcionarios
+where cargo like "%Atendente%";
+
+
+b) Mostrar os clientes (nome, cidade, estado, fone) cadastrados da cidade de ‘Criciúma’.
+
+SELECT  nome, cidade,estado,telefone  FROM locadora.clientes
+where cidade like "%Criciúma%";
+
+
+c) Mostrar as classificações cadastradas ordenadas por nome;
+
+SELECT  tipoclassificacao  FROM locadora.filmes
+order by titulo;
+
+
+d) Mostrar os filmes cadastrados da categoria ‘Comédia’ com status ‘Disponível’.
+
+SELECT  titulo  FROM locadora.filmes
+where tipoclassificacao like "%Comédia%"
+and status = 1;
+
+
+
+f) Mostrar as locações cadastradas do cliente ‘Ana Maria’, no mês de agosto de 2020
+
+select locacao.*
+from locacao, clientes
+where locacao.codcliente = clientes.codcliente
+and clientes.nome like "Ana%"
+and locacao.datalocacao >= "2020-05-06";
+
+
+
+g)  Mostrar as devoluções cadastradas no mês de setembro de 2021 com valorpago superior a R$ 50,00.
+
+
+select * from devolucao
+where datadevolucao >= "2019-09-04"
+and datadevolucao <= "2019-03-25"
+and valorpago > 50.00;
+
+
+
+
+
+//////Construir PROCEDURES (procedimentos) para as tabelas criadas://///////
+
+
+a)
+
+insert into filmes (codfilme,titulo,tempoduracao,tipoclassificacao,diretor,status)
+values (4,"Alerta Vermelho","2:00:00","Ação","Ronald Mc.Donald",1);
+
+
+b)
+
+insert into filmes (codfilme,titulo,tempoduracao,tipoclassificacao,diretor,status)
+values (5,"Minha Mãe É uma Peça 3","1:49:00","Comédia"," Susana Garcia",1);
+
+
+c)
+
+update filmes
+set tipoclassificacao = "Terror"
+where codfilme = 2;
+
+
+d)
+
+update filmes
+set diretor = "Rafael"
+where codfilme = 2;
+
+
+
+
+
+
