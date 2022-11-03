@@ -1,0 +1,124 @@
+create table projeto (
+codprojeto int(5) not null,
+descricao varchar(50) not null,
+datainicio date not null,
+datafim date not null,
+valor float (10,2) not null,
+codfuncionario int(5) not null,
+codsetores  int(5) not null,
+primary key (codprojeto),
+foreign key (codfuncionario) references funcionario(codfuncionario),
+foreign key (codsetores) references setores(codsetores));
+
+
+/////////////////////////////////////////////////////////
+
+insert into projeto (codprojeto,descricao,datainicio,datafim,valor,codfuncionario,codsetores)
+values (1," Projeto Elétrico ","01.08.2021","01/09/2021",'3500.00', 1 ,2 );
+
+insert into projeto (codprojeto,descricao,datainicio,datafim,valor,codfuncionario,codsetores)
+values (2," Projeto Hidráulico ","05.08.2021","05/09/2021","4500.00", 2,1 );
+
+insert into projeto (codprojeto,descricao,datainicio,datafim,valor,codfuncionario,codsetores)
+values (3," Projeto Paisagístico ","10.08.2021","10/09/2021","2500.00", 3,2);
+
+////////////////////////////////////////////////////
+
+d) 
+  
+select projeto.descricao, projeto.datainicio, projeto.datafim from projeto,setores
+where setores.codsetores = projeto.codsetores and setores.nome like " Engenharia ";
+
+//////////////////////////////////////////////
+
+e)  
+
+select projeto.descricao, projeto.valor from projeto,funcionario
+where funcionario.codfuncionario = projeto.codfuncionario and funcionario.nome like " Roberto ";
+
+
+////////////////////////////////////////////////
+
+f)  
+
+select projeto.descricao, projeto.datafim, projeto.valor from projeto,funcionario
+where funcionario.codfuncionario = projeto.codfuncionario 
+and projeto.datainicio     >= "2021/08/01"
+and projeto.datainicio     <= "2021/08/31"
+and funcionario.nome like " Ronaldo";
+
+
+
+/////////////////////////
+
+
+g)
+
+select projeto.descricao, projeto.datafim, projeto.valor , projeto.datainicio from projeto,setores
+where setor.codsetores = projeto.codsetores  
+and projeto.valor>300.00
+and setores.nome like "coordenação";
+
+
+
+///////////////////////
+
+h) 
+
+select projeto.codprojeto, projeto.descricao, projeto.valor , projeto.datainicio from projeto,funcionario
+where funcionario.codfuncionario = projeto.codfuncionario
+and projeto.datainicio>="2021/08/01"
+and projeto.datainicio>="2021/08/05"
+and projeto.valor<4000.00
+and funcionario.nome like " Roberto ";
+
+
+
+//////////////////////////
+
+
+i)
+
+select projeto.codprojeto, projeto.descricao, projeto.valor , projeto.datainicio from projeto,setores
+where setores.codsetores = projeto.codsetores  
+and projeto.valor>=2000.00
+and projeto.datafim>="2021/08/05"
+and projeto.datafim>="2021/08/06"
+and projeto.valor<4000.00
+and setor.nome like "coordenação";
+
+
+///////////////////////////////
+
+
+j)
+
+select projeto.codprojeto, projeto.descricao, projeto.valor , projeto.datainicio from projeto,setores,funcionario
+where funcionario.codfuncionario = projeto.codfuncionario
+and funcionario.codsetores = setores.codsetores
+and projeto.datainicio>="2021/01/05"
+and projeto.datainicio<="2021/12/06"
+and funcionario.nome like " Roberto "
+and setores.nomesetor like " coodernação ";
+
+
+/////////////////////////////
+
+
+k)
+
+select projeto.codprojeto, projeto.descricao, projeto.valor  from projeto,setores,funcionario
+where funcionario.codfuncionario = projeto.codfuncionario
+and funcionario.codsetores = setores.codsetores
+and projeto.valor >2000.00
+and funcionario.nome like " Roberto "
+and setores.nomesetor like "coordenação";
+
+
+ 
+
+
+  
+
+  
+

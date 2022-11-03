@@ -1,0 +1,274 @@
+
+
+//////////Tables/////////////////////
+
+create table prateleira (
+codprateleira int(5) not null,
+descricao varchar(50) not null,
+capacidade int(5) not null,
+primary key (codprateleira));
+
+ 
+
+
+create table categoria(
+codcategoria int(5) not null,
+descricao varchar(50) not null,
+codprateleira int(5) not null,
+primary key (codcategoria),
+foreign key (codprateleira) references prateleira (codprateleira));
+
+ 
+
+create table editora (
+codeditora int(5) not null,
+nome varchar(50) not null,
+cidade varchar(50) not null,
+estado varchar(50) not null,
+pais varchar(50) not null,
+primary key (codeditora));
+
+ 
+
+create table autor (
+codautor int(5) not null,
+nome varchar(50) not null,
+cidade varchar(50) not null,
+estado varchar(50) not null,
+nacionalidade varchar(50) not null,
+primary key(codautor));
+
+ 
+
+create table livro(
+codlivro int(5) not null,
+isbn int(13) not null,
+titulo varchar(50) not null,
+ano int(4) not null,
+nrpaginas int(5) not null,
+codeditora int(5) not null,
+codcategoria int(5) not null,
+codautor int(5) not null,
+primary key(codlivro),
+foreign key (codeditora) references editora(codeditora),
+foreign key (codcategoria) references categoria(codcategoria),
+foreign key (codautor) references autor(codautor));
+
+
+
+create table emprestimo(
+codemprestimo int(5) not null,
+codlivro int(13) not null,
+dataemprestimo date not null,
+dataentrega date not null,
+nomeusuario varchar(50) not null,
+valormulta float(6,2),
+primary key(codemprestimo),
+foreign key(codlivro) references livro(codautor));
+
+
+
+
+///////////////inserts////////////////////
+
+insert into  prateleira (codprateleira,descricao,capacidade)
+values (4,"Prateleria 1",333);
+
+insert into  prateleira (codprateleira,descricao,capacidade)
+values (7,"Prateleria 2",788);
+
+insert into  prateleira (codprateleira,descricao,capacidade)
+values (9,"Prateleria 3",900);
+
+insert into prateleira (codprateleira,descricao,capacidade)
+values (10,"Prateleira 7",800);
+
+insert into prateleira (codprateleira,descricao,capacidade)
+values (11,"Prateleira 5",432);
+
+
+
+
+insert into  categoria (codcategoria,descricao,codprateleira)
+values (1,"Jornal",4);
+
+insert into  categoria (codcategoria,descricao,codprateleira)
+values (2,"Revista",7);
+
+insert into  categoria (codcategoria,descricao,codprateleira)
+values (3,"Gibi",9);
+
+insert into  categoria (codcategoria,descricao,codprateleira)
+values (4,"Album de fotos",10);
+
+insert into  categoria (codcategoria,descricao,codprateleira)
+values (5,"Album de figurinha",11);
+
+
+
+insert into editora (codeditora,nome,cidade,estado,pais)
+values (1,"Rafael","Florianopolis","SC","Brasil");
+
+insert into editora (codeditora,nome,cidade,estado,pais)
+values (2,"Paulo","Salvador","BH","Brasil");
+
+insert into editora (codeditora,nome,cidade,estado,pais)
+values (3,"Pedro","Criciuma","SC","Brasil");
+
+insert into editora (codeditora,nome,cidade,estado,pais)
+values (4,"Arthur","Salvador","BH","Brasil");
+
+insert into editora (codeditora,nome,cidade,estado,pais)
+values (5,"Iury","Salvador","BH","Brasil");
+
+
+
+
+
+insert into autor (codautor,nome,cidade,estado,nacionalidade)
+values (1,"Rafael","Criciuma","SC","Brasileiro");
+
+insert into autor (codautor,nome,cidade,estado,nacionalidade)
+values (2,"Paulo","Florianopolis","SC","Brasileiro");
+
+insert into autor (codautor,nome,cidade,estado,nacionalidade)
+values (3,"Pedro","Salvador","BH","Brasileiro");
+
+insert into autor (codautor,nome,cidade,estado,nacionalidade)
+values (4,"Joao","Salvador","BH","Brasileiro");
+
+insert into autor (codautor,nome,cidade,estado,nacionalidade)
+values (5,"Renatin","Salvador","BH","Brasileiro");
+
+
+
+
+
+insert into livro (codlivro,isbn,titulo,ano,nrpaginas,codeditora,codcategoria,codautor)
+values (1,1111,"Diário de um Banana","2004",200,1,1,1);
+
+insert into livro (codlivro,isbn,titulo,ano,nrpaginas,codeditora,codcategoria,codautor)
+values (2,2222,"Good of War","2018",400,2,2,2);
+
+
+insert into livro (codlivro,isbn,titulo,ano,nrpaginas,codeditora,codcategoria,codautor)
+values (3,3333,"Dom Quixote","1605",500,3,3,3);
+
+insert into livro (codlivro,isbn,titulo,ano,nrpaginas,codeditora,codcategoria,codautor)
+values (4,4444,"Anne Frank","1930",700,4,4,4);
+
+insert into livro (codlivro,isbn,titulo,ano,nrpaginas,codeditora,codcategoria,codautor)
+values (5,5555,"A menina que roubava livros","1945",300,5,5,5);
+
+
+
+
+
+insert into emprestimo (codemprestimo,codlivro,dataemprestimo,dataentrega,nomeusuario,valormulta)
+values (1,1,"2021/01/04","2021/01/04","RafaelFrassetto",180.0);
+
+insert into emprestimo (codemprestimo,codlivro,dataemprestimo,dataentrega,nomeusuario,valormulta)
+values (2,2,"2021/10/05","2021/05/15","PauloSilva",200.50);
+
+insert into emprestimo (codemprestimo,codlivro,dataemprestimo,dataentrega,nomeusuario,valormulta)
+values (3,3,"2021/07/23","2021/07/24","JoaoPaulo",15.50);
+
+insert into emprestimo (codemprestimo,codlivro,dataemprestimo,dataentrega,nomeusuario,valormulta)
+values (4,4,"2021/03/21","2021/03/22","JoaoPauloSilva",15.50);
+
+insert into emprestimo (codemprestimo,codlivro,dataemprestimo,dataentrega,nomeusuario,valormulta)
+values (5,5,"2021/03/25","2021/03/26","JoaoPauloOliveira",15.50);
+
+
+
+----------------------------------------------------------------
+//////////////////inserts DML slide/////////////////////////////
+a)
+
+insert into prateleira (codprateleira,descricao,capacidade)
+values (6,"Prateleira 6",350);
+
+
+
+-----------------------------------------
+b)
+
+insert into categoria (codcategoria,descricao,codprateleira)
+values (6,"Monografias",6);
+
+--------------------------------------------
+c)
+
+update categoria
+set descricao = "Artigos e Monografias"
+where codcategoria = 6
+--------------------------------------
+d)
+
+update prateleira
+set capacidade = 500
+where codprateleira = 6
+
+--------------------------------------
+e)
+
+SELECT descricao,capacidade FROM biblioteca.prateleira;
+
+--------------------------------------
+f)
+SELECT codcategoria,descricao FROM biblioteca.categoria
+order by descricao;
+--------------------------------------
+g)
+SELECT nome,cidade,estado FROM biblioteca.editora
+where pais like "Brasil%"
+--------------------------------------
+h)
+SELECT sum(capacidade) FROM biblioteca.prateleira
+--------------------------------------
+i)
+
+SELECT count(cidade) FROM autor
+where cidade like "Salvador%";
+
+--------------------------------------
+j)
+SELECT count(isbn) FROM livro;
+--------------------------------------
+k)
+SELECT distinct autor.nome FROM livro,autor
+where autor.codautor = livro.codautor;
+--------------------------------------
+L)
+SELECT distinct editora.nome FROM livro,editora
+where editora.codeditora = livro.codeditora;
+----------------------------------------
+m)
+SELECT codautor,count(codlivro) 
+from livro
+group by codautor;
+----------------------------------------
+n)
+SELECT codeditora,count(codlivro)
+from livro
+group by codeditora;
+----------------------------------------
+o)
+SELECT livro.titulo, livro.ano, livro.nrpaginas, autor.nome, editora.nome
+from livro,autor,editora
+where autor.codautor = livro.codautor
+and editora.codeditora = livro.codeditora
+and autor.nome like "Manuel Bandeira"
+and editora.nome like "Arqueiro";
+-----------------------------------------------------------
+p)
+SELECT livro.titulo, livro.ano, livro.nrpaginas, categoria.descricao,autor.nome
+from livro,autor,categoria
+where autor.codautor = livro.codautor
+and categoria.codcategoria = livro.codcategoria
+and autor.nome like "Machado de Assis"
+and categoria.descricao like "Literatura Nacional";
+
+
+
+
