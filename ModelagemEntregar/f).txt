@@ -1,0 +1,6 @@
+
+f)
+
+SELECT nomecliente,fonecliente FROM clientes
+where numerocliente >=1 and 
+	  numerocliente <=2;

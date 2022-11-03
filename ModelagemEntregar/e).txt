@@ -1,0 +1,5 @@
+
+e)
+
+SELECT nomecliente,enderecocliente,cidadecliente FROM clientes;
+

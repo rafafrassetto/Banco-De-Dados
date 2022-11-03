@@ -1,0 +1,5 @@
+
+b)
+
+SELECT fone,nomeagencia FROM banco.agencia;
+

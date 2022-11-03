@@ -1,0 +1,5 @@
+
+h)
+
+SELECT nomecliente,fonecliente FROM clientes
+where cidadecliente like '%Criciuma';

@@ -1,0 +1,5 @@
+
+g)
+
+SELECT * FROM clientes
+where nomecliente like '%A';

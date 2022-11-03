@@ -1,0 +1,6 @@
+
+c)
+
+SELECT * FROM banco.agencia
+where numeroagencia = 2;
+

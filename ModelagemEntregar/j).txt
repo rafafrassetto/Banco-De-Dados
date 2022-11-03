@@ -1,0 +1,3 @@
+ j)
+
+  SELECT sum(saldo) FROM conta;

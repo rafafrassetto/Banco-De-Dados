@@ -1,0 +1,3 @@
+ m)
+
+  SELECT avg(saldo) FROM conta;
