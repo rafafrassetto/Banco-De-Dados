@@ -1,0 +1,363 @@
+//////////Tables/////////////////////
+
+
+CREATE TABLE funcionarios (
+            codfun int not null,
+            nome varchar(45) not null,
+            endereco varchar(45) not null,
+            cidade varchar(45) not null,
+            estado varchar(45) not null,
+            fone int not null,
+            cargo varchar(45) not null,
+            rg int not null,
+            cpf int null,
+            primary key (codfun));
+
+
+CREATE TABLE especialidades(
+            codesp int not null,
+            descricao varchar(45) not null,
+            primary key (codesp));
+
+
+
+
+CREATE TABLE medicos (
+            codmed int not null,
+            nome varchar(45) not null,
+            endereco varchar(45) not null,
+            cidade varchar(45) not null,
+            estado varchar(45) not null,
+            fone int not null,
+            crm int not null,
+            codesp int not null,
+            primary key (codmed),
+            foreign key (codesp) references especialidades (codesp));
+
+CREATE TABLE planosaude (
+            codplano int not null,
+            descricao varchar(45) not null,
+            tipocobertura varchar(45) not null,
+            primary key (codplano));
+
+CREATE TABLE pacientes (
+            codpaciente int not null,
+            nome varchar(45) not null,
+            endereco varchar(45) not null,
+            cidade varchar(45) not null,
+            estado varchar(45) not null,
+            fone int not null,
+            rg int not null,
+            cpf int not null,
+            codplano int not null,
+            primary key (codpaciente),
+            foreign key (codplano) references planosaude (codplano));
+
+CREATE TABLE consultas (
+            codconsulta int not null,
+            dataconsulta  date,
+            horaconsulta  time not null,
+            sintomas varchar(45) not null,
+            observacoes varchar(45) not null,
+            medicacao varchar(45) not null,
+            codfun int not null,
+            codmed int not null,
+            codpaciente int not null,
+            primary key (codconsulta),
+            foreign key (codfun) references funcionarios (codfun),
+            foreign key (codmed) references medicos (codmed),
+            foreign key (codpaciente) references pacientes (codpaciente));
+
+
+///////////////inserts////////////////////
+
+
+insert into especialidades (codesp,descricao)
+values (1,"Dermatologia");
+
+insert into especialidades (codesp,descricao)
+values (2,"Gastroenterologia");
+
+insert into especialidades (codesp,descricao)
+values (3,"Epidemiologia");
+
+
+
+
+insert into funcionarios (codfun,nome,endereco,cidade,estado,fone,cargo,rg,cpf)
+values (1,"Rogerio","Rua Nove","Agalopolis","SC",909098754,"Chefe Executivo",98888888,12678912);
+
+insert into funcionarios (codfun,nome,endereco,cidade,estado,fone,cargo,rg,cpf)
+values (2,"Ana","Rua Sete","Amelopolis","SC",909056754,"CEO",989758888,12278945);
+
+insert into funcionarios (codfun,nome,endereco,cidade,estado,fone,cargo,rg,cpf)
+values (3,"Paulo","Rua Noventa","Agalopolis","SC",909098754,"Chefe Executivo",98888888,12389123);
+
+
+
+insert into medicos (codmed,nome,endereco,cidade,estado,fone,crm,codesp)
+values (1,"Rogerio","Rua Quarenta e Nove","Coninha","BH",354367531,1,1);
+
+insert into medicos (codmed,nome,endereco,cidade,estado,fone,crm,codesp)
+values (2,"Anali","Rua Quarenta e Tres","Barco","RS",334367599,2,2);
+
+insert into medicos (codmed,nome,endereco,cidade,estado,fone,crm,codesp)
+values (3,"Pedro","Rua Galo","Puleiro","RJ",554367527,3,3);
+
+
+
+insert into pacientes (codpaciente,nome,endereco,cidade,estado,fone,rg,cpf,codplano)
+values (1,"Jairo","Rua Top","Toplopolis","SC",359967111,1,1,1);
+
+insert into pacientes (codpaciente,nome,endereco,cidade,estado,fone,rg,cpf,codplano)
+values (2,"Joao","Rua Jean","Rinopolis","BH",779948111,2,2,2);
+
+insert into pacientes (codpaciente,nome,endereco,cidade,estado,fone,rg,cpf,codplano)
+values (3,"Bartolomeu","Rua E","Rinopolis","SC",779947511,3,3,3);
+
+
+insert into planosaude (codplano,descricao,tipocobertura)
+values (1,"Unimed","Sul");
+
+insert into planosaude (codplano,descricao,tipocobertura)
+values (2,"Hospital São José","Sul");
+
+insert into planosaude (codplano,descricao,tipocobertura)
+values (3,"Hospital Rio Maina","Sul");
+
+insert into consultas (codconsulta,dataconsulta,horaconsulta,sintomas,observacoes,medicacao,codfun,codmed,codpaciente)
+values (1,"2021/01/04","12:00:00","Febre","Tolerância a Lactose","Paracetamol",1,1,1);
+
+insert into consultas (codconsulta,dataconsulta,horaconsulta,sintomas,observacoes,medicacao,codfun,codmed,codpaciente)
+values (2,"2021/10/05","20:50:00","Tosse Seca","Se prolongou por 3 dias","Levodropropizina",2,2,2);
+
+insert into consultas (codconsulta,dataconsulta,horaconsulta,sintomas,observacoes,medicacao,codfun,codmed,codpaciente)
+values (3,"2021/07/23","23:00:00" ,"Fadiga","Cansaço Excessivo","Ginseng",3,3,3);
+
+
+///////////////Selects Atividade////////////////////
+
+a)(Pesquisar todos os registros da tabela FUNCIONARIOS da cidade de “Criciúma”.)
+
+ SELECT * FROM clinica_medica.funcionarios
+ where cidade like "%Criciúma%";
+
+
+b)(Pesquisar codigo, nome, crm e telefone  da tabela MEDICOS ordenados por nome)
+
+ SELECT codmed,nome,crm FROM clinica_medica.medicos
+ order by nome;
+
+
+c)(Pesquisar todos os registros da tabela FUNCIONARIOS com o cargo “Enfermeiro”)
+
+ SELECT * FROM clinica_medica.funcionarios
+ where cargo like "%Enfermeiro%";
+
+
+d)(Pesquisar nome, telefone, cidade de todos registros da tabela PACIENTES do estado de “SC”)
+
+ SELECT nome,fone,cidade FROM clinica_medica.pacientes
+ where estado like "%SC%";  
+
+e)(Pesquisar o total de pacientes cadastrados na tabela pacientes.)
+
+ SELECT count(codpaciente) FROM clinica_medica.pacientes
+
+
+f)(Pesquisar todos os planos de saude cadastrados no tipo de cobertura “Nacional”)
+
+  SELECT * from clinica_medica.planosaude
+  where tipocobertura like "%Nacional%"; 
+
+
+g)(Pesquisar o total de médicos onde a especialidade é “Pediatria” e no estado de “SC”)
+
+   SELECT count(codmed) FROM clinica_medica.medicos,especialidades 
+   where especialidades.descricao like "%Pediatria%" 
+   and medicos.estado like "%SC%"
+   and medicos.codesp = especialidades.codesp;
+
+
+h)(Pesquisar codigo, nome e crm dos médicos onde a especialidade é “Cardiologista” e residem na cidade de “Criciúma”)
+  
+  select medicos.codmed,medicos.nome,medicos.crm from medicos,especialidades 
+   where medicos.cidade like "%Criciúma%" 
+   and especialidades.descricao like "%Cardiologista%";
+   
+
+i)(Pesquisar total dos pacientes que possuem plano de saúde “UNIMED”)
+
+    SELECT count(codpaciente) FROM clinica_medica.pacientes,planosaude
+    where planosaude.descricao like "%UNIMED%" and
+    planosaude.codplano = pacientes.codplano;
+
+
+j)(Pesquisar codigo, nome, fone dos pacientes que possuem plano de saúde “Saude São Jose” e tipo cobertura “Regional”)
+  
+
+select medicos.codmedico, medicos.nome, medicos.crm, medicos.fone
+from medicos inner join consultas
+where consultas.codmedico = medicos.codmedico
+and consultas.dataconsulta <= "2021/12/01"; 
+
+
+
+k)(Pesquisar data, hora, codmedico das consultas agendadas para o paciente “Luciano Fernandes”  no ano de 2021)
+
+select consultas.dataconsulta,horaconsulta,consultas.codmed from consultas,pacientes
+where consultas.codpac = pacientes.codpac and
+pacientes.nome like "%Vagner%" and consultas.dataconsulta between "2022-01-01" and "2022-12-31";
+
+
+
+l)(Pesquisar todas as consultas agendadas para o paciente “Cris Pavei”  nos meses de Agosto a Novembro de 2021)
+
+   select consultas.* from consultas, pacientes 
+   where consultas.codpaciente = pacientes.codpaciente 
+   and pacientes.nome like "Cris Pavei%" 
+   and consultas.dataconsulta >= "2021-08-01" 
+   and consultas.dataconsulta <= "2021-09-01";
+
+
+m)(Pesquisar codigo, data, hora, codpaciente, codmedico que possuem consultas agendadas para o dia “05/10/2021”)
+
+  
+select consultas.codconsulta, consultas.dataconsulta, consultas.horaconsulta, pacientes.codpaciente, medicos.codmed 
+from consultas, medicos, pacientes 
+where consultas.codmed = medicos.codmed 
+and consultas.codpaciente = pacientes.codpaciente 
+and consultas.dataconsulta like "05/10/2021";
+
+
+
+n)(Pesquisar data, hora, nome do paciente, codmedico com consultas agendadas para no periodo de 10 a 15/10/2021)
+   
+select consultas.dataconsulta, consultas.horaconsulta, pacientes.nome, medicos.codmed from consultas, medicos, pacientes 
+where consultas.codmed = medicos.codmed 
+and consultas.codpaciente = pacientes.codpaciente 
+and consultas.dataconsulta >= "2021-06-03" 
+and consultas.dataconsulta <= "2021-08-02";
+
+
+o)(Pesquisar data, hora, nome do paciente com consultas agendadas com plano saúde “UNIMED” para o mês novembro de 2021)
+  
+select consultas.dataconsulta, consultas.horaconsulta, pacientes.nome 
+from consultas, pacientes, planosaude where pacientes.codplano = planosaude.codplano 
+and consultas.codpaciente = pacientes.codpaciente 
+and planosaude.descricao like "Unimed" 
+and consultas.dataconsulta >= "2021-07-23";
+
+
+p)(Pesquisar codigo, data, hora, nome e telefone dos pacientes que tem consultas agendadas para o dia “10/11/2021” onde o médico é “Dr. Rafael”)
+
+select consultas.codconsulta, consultas.dataconsulta, consultas.horaconsulta, pacientes.nome, pacientes.fone 
+from consultas, pacientes, medicos 
+where consultas.codmed = medicos.codmed 
+and consultas.codpaciente = pacientes.codpaciente 
+and medicos.nome like "Rafael%" 
+and consultas.dataconsulta >= "10/11/2021";   
+  
+  
+
+q)(Pesquisar codigo, data, hora, nome e telefone dos pacientes que tem consultas agendadas para o mês de novembro de 2021 onde a especialidade do médico é “Fisioterapia”)
+
+select consultas.codconsulta, consultas.dataconsulta, consultas.horaconsulta, pacientes.nome, pacientes.fone 
+from consultas, pacientes, especialidades, medicos 
+where medicos.codesp = especialidades.codesp 
+and consultas.codpaciente = pacientes.codpaciente 
+and especialidades.descricao like "Fisioterapia" and consultas.dataconsulta >= "2021-08-20";
+
+
+r)(Pesquisar codigo, data, hora das consultas agendadas para o paciente “Andre”  nos meses de Agosto a Dezembro de 2021 onde o médico é “Dra. Aline”)
+
+select consultas.codconsulta, consultas.dataconsulta, consultas.horaconsulta 
+from consultas, pacientes, medicos where consultas.codmed = medicos.codmed 
+and consultas.codpaciente = pacientes.codpaciente 
+and medicos.nome like "Dra.Aline%" 
+and pacientes.nome like "Andre%" 
+and consultas.dataconsulta >= "2021-07-20" 
+and consultas.dataconsulta <= "2021-12-15";
+
+
+s)(Pesquisar codigo, data, hora das consultas agendadas para o paciente “Arthur”  no ano de 2021 onde a especialidade do médico é “Ortopedista”)
+
+select consultas.codconsulta, consultas.dataconsulta, consultas.horaconsulta 
+from consultas, pacientes, medicos, especialidades 
+where consultas.codmed = medicos.codmed 
+and medicos.codesp = especialidades.codesp 
+and consultas.codpaciente = pacientes.codpaciente 
+and pacientes.nome like "Arthur%" 
+and especialidades.descricao like "Ortopedista" 
+and consultas.dataconsulta like "2021%";
+
+
+t)(Pesquisar codigo, data, hora, nome dos pacientes que tem consultas agendadas para o mês de Dezembro de 2021 onde o médico é “Dra. Ana” e a especialidade é “Pediatra”)
+
+
+select consultas.codconsulta, consultas.dataconsulta, consultas.horaconsulta, pacientes.nome 
+from consultas, pacientes, medicos, especialidades 
+where consultas.codmed = medicos.codmed and medicos.codesp = especialidades.codesp 
+and consultas.codpaciente = pacientes.codpaciente 
+and medicos.nome like "Dra.Ana%" 
+and especialidades.descricao like "Pediatra" 
+and consultas.dataconsulta >= "2021-12-01" 
+and consultas.dataconsulta <= "2021-12-31";
+
+
+u)(Pesquisar codigo, data, hora, nome dos pacientes que tem consultas agendadas para o mês de Dezembro de 2021 onde o médico é “Dra. Ana” e a especialidade é “Pediatra”)
+
+
+select consultas.codconsulta, consultas.dataconsulta, consultas.horaconsulta, pacientes.nome 
+from consultas, pacientes, medicos, especialidades 
+where consultas.codmed = medicos.codmed and medicos.codesp = especialidades.codesp 
+and consultas.codpaciente = pacientes.codpaciente 
+and medicos.nome like "Dra.Ana%" 
+and especialidades.descricao like "Pediatra" 
+and consultas.dataconsulta >= "2021-12-01" 
+and consultas.dataconsulta <= "2021-12-31";
+
+
+
+v)(Pesquisar codigo, data, hora, nome e telefone dos pacientes que tem consultas agendadas para o mês de janeiro de 2022 onde a especialidade do médico é “Cardiologista” agendados pelo funcionário “Carlos”)
+
+
+select consultas.codconsulta, consultas.dataconsulta, consultas.horaconsulta, pacientes.nome, pacientes.fone 
+from consultas, pacientes, medicos, especialidades, funcionarios 
+where consultas.codmed = medicos.codmed 
+and consultas.codfun = funcionarios.codfun 
+and medicos.codesp = especialidades.codesp 
+and consultas.codpaciente = pacientes.codpaciente 
+and funcionarios.nome like "Carlos%" 
+and especialidades.descricao like "Cardiologista" 
+and consultas.dataconsulta >= "2022-01-01"
+and consultas.dataconsulta <= "2022-01-31"; 
+
+
+
+w)(Pesquisar codigo, data, hora das consultas agendadas para o paciente “Arthur”  no mês de Novembro de 2021 onde a especialidade do médico é “Ortopedista” e o médico é “Dr. Giovane”)
+
+select consultas.codconsulta, consultas.dataconsulta, consultas.horaconsulta, pacientes.nome 
+from consultas, pacientes, medicos, especialidades 
+where consultas.codmed = medicos.codmed and medicos.codesp = especialidades.codesp 
+and consultas.codpaciente = pacientes.codpaciente 
+and pacientes.nome like "Arthur%" and medicos.nome like "Dr.Giovane%" 
+and especialidades.descricao like "Ortopedista" 
+and consultas.dataconsulta >= "2021-07-11" 
+and consultas.dataconsulta <= "2021-11-14";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
